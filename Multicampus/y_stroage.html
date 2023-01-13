@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style type="text/css">
+        .note{
+            border: 1px solid;
+            min-height:200px;
+        }
+        </style>
+        <script src="./resources/js/common.js" type="text/javascript"></script>
+</head>
+<body>
+    <h1>localStroage, sessionStorage</h1>
+    <pre>
+        브라우저에 있는 ㅁ누자형 데이터 저장공간
+        key-value 형태로 데이터를 저장
+
+        localStorage : 데이터를 영속적으로 저장
+        SessionStorage : 데이터를 브라우저의 세션동안 저장
+    </pre>
+    <div id="storageNote" class="note"></div>
+    <br>
+    <br>
+
+    <input type="text" placeholder="이름" id="username"><br>
+    <input type="number" placeholder="나이" id="userAge"><br>
+    <label>성인인증<input type="checkbox" id="checkAdult"></label>
+    <br><br>
+
+    <button id="btnSave">데이터 저장</button>
+    <button id="btnGet">데이터 확인</button>
+    <button id="btnDel">데이터 삭제</button>
+
+
+    <script>
+        btnSave.addEventListener('click', ev=>{
+            let userInfo = { // 객체 생성
+                name : username.value,
+                age:userAge.valueAsNumber,
+                isAdult:checkAdult.chekced // boolean으로 나온다
+            }
+            
+            localStorage.setItem('userInfo', JSON.stringify(userInfo)); // 무조건 제이슨으로 만들어라 받아서 쓸때 제이슨으로 넘어가 있는 데이터들은 
+            sessionStorage.setItem('userInfo', JSON.stringify(userInfo)); // 자바스크립트 오브젝트로 받을수 있음 (제이슨 문자열이 넘어옴)
+            
+            
+       
+        })  
+
+        btnGet.addEventListener('click', ev =>{
+            let dataAsSJson = localStorage.getitem('userInfo');
+            // console.dir(typeof(dataAsSJson));
+
+            let obj = JSON.parse(dataAsSJson);
+            // console.dir(typeof(obj.age));
+            // console.dir(typeof(obj.isAdult));
+
+            $('#storageNote', `name : ${obj.name}, age:${obj.age}, isAdult : ${obj.isAdult}`);
+            $('#storageNote', `name : ${typeof(obj.name)}, age:${typeof(obj.age)}, isAdult :${typeof(obj.isAdult)}`);
+
+        })
+
+        btnDel.addEventListener('click', ev=>{
+            localStorage.removeItem('userInfo');
+            // sessionStorage.
+        })
+
+
+
+
+        // localStorage.setItem('age', 15);
+        // sessionStorage.setItem('isAdult', false);
+        // localStorage.setItem('age', 15); // 수정
+        
+        // console.dir(localStorage.getItem('age'));
+        // console.dir(sessionStorage.getItem('isAdult'));
+        
+        // console.dir(typeof(localStorage.getItem('age')));
+        // console.dir(typeof(sessionStorage.getItem('isAdult')));
+
+        //삭제
+        // localStorage.clear();
+        // sessionStorage.removeItem('isAdult');
+
+
+    </script>
+
+    <h1>Cookie</h1>
+    <pre>
+        Cookie는 서버가 클라이언트에게 응답할 때 헤더에 저장해두는 작은 데이터조각이다.(1메가도 안됨)
+        클라이언트가 서버에 요청을 보낼 경우 해당 서버에서 응답헤더에 보냈던 Cookie를 요청헤더에 담아서 서버에게 전송한다.
+
+
+        쿠키 사용이유
+        HTTP Server는 Stateless 하다.
+        즉 서버는 클라이언트의 상태를 알지 못한다.
+
+        Stateless 한 특징을 극복하기 위해 Cookie를 사용하기 시작하였다
+        서버는 클라이언트 에게 응답을 할 떄, 다음에 클라이언트가 요청할 경우 알아야 하는 데이터를 응답 헤더에 Cookie로 담아 전송
+        클라이언트는 다음에 서버에 요청을 하게 될 때 자동으로, 이전에 서버가 보냈던 Cookie 데이터를 요청헤얻에 담아서 서버로 전송하기 때문에
+        서버에서는, 클라이언트의 상태를 알고 있는 것 처럼 서비스를 구현할 수 있다.
+    </pre>
+    <div id="cookieNote" class="note"></div>
+    <script>
+        // 새로운 쿠키를 추가해보자
+        // key = value
+        // max-age : 쿠키유효시간
+        document.cooklie = 'ks-cookie는 자바스크립트에서 추가한 쿠키.; max-age=20';
+        console.dir(document.cookie);
+        $('#cookieNote', `${document.cookie}`);
+    </script>
+
+
+
+
+</body>
+</html>
